@@ -35,16 +35,15 @@ void Logger::operator << (const char* text) {
 
 
 ostream& operator << (ostream& output, Logger& logger) {
-	string str;
+	char str[BUFFER_LENGTH];
 
 	logger.loggerMutex.lock();
-	logger.log_file.seekg(0);
+	logger.log_file.seekg(ios_base::beg);	// устанавливаем текущую позицию чтения на начало
 
-	while (!logger.log_file.eof()) {
-		std::getline(logger.log_file, str);
+	while (logger.log_file.getline(str, BUFFER_LENGTH))
 		output << str << '\n';
-	}
 
+	logger.log_file.clear();	// сбрасываем ошибки потока
 	logger.loggerMutex.unlock();
 
 	return output;
