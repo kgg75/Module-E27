@@ -10,7 +10,7 @@ using namespace std;
 Logger::Logger() {
 	log_file.open(LOG_FILE_NAME, ios::in | ios::out | ios::app);
 	if (!log_file.is_open()) {
-		//cout << "Íåèçâåñòíàÿ îøèáêà ïðè îòêðûòèè log-ôàéëà!\n";
+		//cout << "ÃÃ¥Ã¨Ã§Ã¢Ã¥Ã±Ã²Ã­Ã Ã¿ Ã®Ã¸Ã¨Ã¡ÃªÃ  Ã¯Ã°Ã¨ Ã®Ã²ÃªÃ°Ã»Ã²Ã¨Ã¨ log-Ã´Ã Ã©Ã«Ã !\n";
 		open_status_OK = false;
 	}
 }
@@ -37,7 +37,7 @@ void Logger::operator << (const char* text) {
 ostream& operator << (ostream& output, Logger& logger) {
 	string str;
 
-	loggerMutex.lock();
+	logger.loggerMutex.lock();
 	logger.log_file.seekg(0);
 
 	while (!logger.log_file.eof()) {
@@ -45,7 +45,7 @@ ostream& operator << (ostream& output, Logger& logger) {
 		output << str << '\n';
 	}
 
-	loggerMutex.unlock();
+	logger.loggerMutex.unlock();
 
 	return output;
 }
